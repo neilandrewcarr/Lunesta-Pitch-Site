@@ -1,0 +1,406 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+	html { width: 100%; height: 100%; overflow-y: scroll; }
+	body { background: #000; width: 100%; height: 100%; margin: 0; font-family: 'Gotham-Light'; color: #fff; }
+	h1 { margin: 0; }
+	#site_container { position:fixed; width:100%; height: 100%; }
+	#scene_container { width: 100%; height: 100%; position: absolute; overflow: hidden; }
+	#scene_window { height: 727px; width:1200px; margin: 0 auto; overflow: hidden; position: relative; }
+	#scene_image { position: absolute; }
+	#nav_container { overflow-x: scroll; overflow-y: hidden; position: absolute; width: 100%; height: 30px; top: 100%; margin-top: -30px; }
+	#nav_width_element { width:3000px; height:30px; }
+
+	#scene_scroller { position: relative; height: 727px; width:1200px; }
+
+	#scene_01 { background: url('images/bg1.jpg') no-repeat; height: 727px; width: 1200px; position: absolute; }
+	#scene_01_cloud { background: url('images/cloud1.png') no-repeat 0 -1100px; width: 478px; height:221px; left: 220px; position: absolute;  }
+	#scene_01_cloud2 { background: url('images/cloud2.png') no-repeat 0 -700px; width: 260px; height: 260px; position: absolute; }
+	#scene_01_moon { background: url('images/moon.png') no-repeat 0 -600px; width: 264px; height: 405px; position: absolute; left:900px; }
+	#scene_01_skyline { background: url('images/skyline.png') no-repeat 0 200px; width: 1200px; height: 517px; position: absolute; bottom: 0px; }
+	#scene_01_city { background: url('images/buildings.png') no-repeat 0 250px; width: 1200px; height: 435px; position: absolute; bottom: 0px; pointer-events:none; }
+	#scene_01_text { position: absolute; width: 100%; text-align: center; top: 330px; opacity: 0; }
+	#scene_01_text h1 { font-size:22px; font-weight:normal; }
+	#scene_01_text p { font-size:16px; margin-top:5px; line-height: 20px; }
+	#scene_01_down { cursor: pointer; }
+
+	#scene_02 { background: url('images/bg2.jpg') no-repeat; height: 727px; width: 1200px; position: absolute; top: 727px; }
+	#scene_02_text { width: 456px; height: 119px; position: absolute; top: 330px; left: 200px; }
+	#scene_02_cloud { background: url('images/cloud3.png') no-repeat -100px -900px; width: 225px; height: 988px; position: absolute; }
+	#scene_02_book { background: url('images/book_blue.png') no-repeat 200px -300px; width: 346px; height: 438px; position: absolute; }
+	#scene_02_book2 { background: url('images/book_green.png') no-repeat 410px -1200px; width: 591px; height: 401px; position: absolute; top: 0; }
+	#scene_02_cloud2 { background: url('images/cloud2.png') no-repeat 460px -1000px; width: 720px; height: 283px; position: absolute; top:0; }
+	#scene_02_book3 { background: url('images/book_red.png') no-repeat 660px -400px; width: 901px; height: 551px; position: absolute; top: 0; }
+	#scene_02_book4 { 
+		position: absolute; top: 430px; width: 1109px; height: 262px; background: url('images/book.png') no-repeat 710px 0;
+	}
+	#scene_02_book4_glow { position: absolute; top: 50px; left: 790px; opacity: 0; }
+	#scene_02_light_container { position: relative; width: 421px; height: 699px; left: 660px; top:0; }
+	#scene_02_light { position: absolute; background: url('images/light.png') no-repeat 180px -650px; width: 100%; height: 100%;  }
+	#scene_02_light_halo { position: absolute; background: url('images/light_halo.png') no-repeat 0 0; top: 250px; left: 0; height: 423px; width: 421px; opacity: 0; }
+	#scene_02_cloud3 { background: url('images/cloud1.png') no-repeat 760px -1200px; width: 1238px; height: 311px; top: 0; position: absolute; }
+
+	#scene_03 { position: absolute; width: 1200px; height: 727px; top: 727px; left: 1199px; background: url('images/bg3.jpg') no-repeat; }
+	#scene_03_text { width: 500px; left: 150px; top: 250px; position: absolute; }
+	#scene_03_bed { width: 768px; height: 271px; position: absolute; left: 120px; bottom: 0; background: url('images/bed.png') no-repeat 0 0; }
+	#scene_03_z1 { width: 90px; height: 230px; position: absolute; top: 70px; left: 1000px; background: url('images/z3.png') no-repeat 0 0; }
+	#scene_03_z2 { width: 134px; height: 471px; position: absolute; left: 880px; top: 0; background: url('images/z2.png') no-repeat 0 0; }
+	#scene_03_z3 { width: 210px; height: 769px; position: absolute; left: 700px; top: 0; background: url('images/z1.png') no-repeat 0 0; }
+	#scene_03_cloud { width: 260px; height: 283px; position: absolute; top:0; left: 350px; background: url('images/cloud2.png') no-repeat 0 -400px; }
+	#scene_03_cloud2 { width: 295px; height: 988px; position: absolute; top:0; left: 730px; background: url('images/cloud3.png') no-repeat 0 -700px; }
+	#scene_03_clock { width: 155px; height: 333px; position: absolute; left: 650px; top: 0; background: url('images/clock.png') no-repeat 0 -100px; }
+
+	#nav { position: absolute; background: url('images/nav.jpg') no-repeat 0 0; height: 89px; width: 1200px; top:727px; z-index: 999; }
+	#nav.fixed { position: fixed; top: 0; }
+
+	@font-face {
+		font-family: 'Gotham-Light';
+		src: url('fonts/gotham/GothaLig.eot');
+		src: url('fonts/gotham/GothaLig.eot?#iefix') format('eot'),
+		url('fonts/gotham/GothaLig.woff') format('woff'),
+		url('fonts/gotham/GothaLig.svg') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	</style>
+	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="site_container">
+	<div id="scene_container">
+		<div id="scene_window">
+			<div id="scene_scroller">
+				<div id="nav"></div>
+				<div id="scene_01" class="scene">
+					<div id="scene_01_cloud"></div>
+					<div id="scene_01_cloud2"></div>
+					<div id="scene_01_moon"></div>
+					<div id="scene_01_skyline"></div>
+					<div id="scene_01_text">
+						<h1>Everyone deserves a restful night’s sleep.</h1>
+						<p>But millions of us still struggle with sleeplessness. It’s time<br/> to do something about it. That’s why we started Project LUNA.</p>
+						<img id="scene_01_down" src="images/arrow_down.png" alt="Arrow Down"/>
+					</div>
+					<div id="scene_01_city"></div>
+				</div>
+				<div id="scene_02" class="scene">
+					<div id="scene_02_text">
+						<h1>GET THE FACTS</h1>
+						<p>Get new insights and information on just what it takes to get a restful night’s sleep, from whats actually happening when your head hits the pillow, to why talking to your doctor is important.</p>
+
+					</div>
+					<div id="scene_02_cloud"></div>
+					<div id="scene_02_book"></div>
+					<div id="scene_02_book2"></div>
+					<div id="scene_02_cloud2"></div>
+					<div id="scene_02_book3"></div>
+					<div id="scene_02_book4">
+						<img src='images/book_glow.png' alt="book glow" id="scene_02_book4_glow" />
+					</div>
+					<div id="scene_02_light_container">
+						<div id="scene_02_light"></div>
+						<div id="scene_02_light_halo"></div>
+					</div>
+					<div id="scene_02_cloud3"></div>
+				</div>
+				<div id="scene_03">
+					<div id="scene_03_text">
+						<h1>THE ANATOMY OF SLEEP</h1>
+						<p>We call it “rest,” but what your body does while you’re asleep is quite the contrary. Explore the stages of sleep to find out what really happens when you’re catching those Zs, including tips to help you fall asleep, stay asleep, and wake up feeling rested.</p>
+					</div>
+					<div id="scene_03_bed"></div>
+					<div id="scene_03_z1"></div>
+					<div id="scene_03_z2"></div>
+					<div id="scene_03_z3"></div>
+					<div id="scene_03_cloud"></div>
+					<div id="scene_03_cloud2"></div>
+					<div id="scene_03_clock"></div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<div id="nav_container">
+		<div id="nav_width_element"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$.extend($.easing, { //EASING FUNCTIONS
+		easeOutBack: function (x, t, b, c, d, s) {
+			if (s == undefined) s = 1.70158;
+			return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
+		},
+		easeInQuad: function (x, t, b, c, d) {
+			return c*(t/=d)*t + b;
+    	},
+		easeOutQuad: function (x, t, b, c, d) {
+			return -c *(t/=d)*(t-2) + b;
+		},
+		easeInOutQuad: function (x, t, b, c, d) {
+        	if ((t/=d/2) < 1) return c/2*t*t + b;
+        	return -c/2 * ((--t)*(t-2) - 1) + b;
+    	}
+	});
+
+	var $window = $(window);
+	var $scene_window = $('#scene_window');
+	var $nav_container = $('#nav_container');
+	var $scene_scroller = $('#scene_scroller');
+
+	var windowHeight;
+	var windowWidth;
+	var windowTop;
+	var sceneWindowHeight = $scene_window.height();
+	var navWidth = $('#nav_width_element').width();
+	var numPanes = 3; //MH - Temporary. Should be calculated dynamically
+	var panePercentage = 1 / (numPanes -1); 
+	var scrollLeft;
+	var scrollPercentage;
+
+	function init(){
+		getWindowDimensions();
+		positionSceneWindow();
+	}
+
+	function getWindowDimensions(){
+		windowHeight = $window.height();
+		windowWidth = $window.width();
+	}
+
+	function positionSceneWindow(){
+		if (windowHeight > sceneWindowHeight){
+			windowTop = Math.floor((windowHeight - sceneWindowHeight)/2);
+			$scene_window.css({'margin-top' : windowTop + 'px'});
+		}
+		scene_01_in();
+	};
+
+	function getScrollLeft(scrollPerc){
+		return scrollPerc * (navWidth - windowWidth);
+	}
+
+	function getScrollPercentage(){
+		scrollLeft = $nav_container.scrollLeft();
+		scrollPercentage = scrollLeft / (navWidth-windowWidth);
+	}
+
+	function getRelativePercentage(moveNumber){
+		var percentOfOnePane = Math.ceil((scrollPercentage / panePercentage)*100);
+		var percentOfCurrentPane = Math.ceil(percentOfOnePane - ((moveNumber-1)*100));
+		return percentOfCurrentPane;
+	}
+
+	// SCENE 1
+
+	var $nav = $('#nav');
+
+	var $s1 = $('#scene_01');
+	var $s1_city = $('#scene_01_city');
+	var $s1_cloud = $('#scene_01_cloud');
+	var $s1_cloud2 = $('#scene_01_cloud2');
+	var $s1_skyline = $('#scene_01_skyline');
+	var $s1_text = $('#scene_01_text');
+	var $s1_moon = $('#scene_01_moon');
+	var s1_arrayAnimated = [$s1_cloud,$s1_cloud2,$s1_moon];
+
+	var s1_cloudRest = -900, s1_cloudOut = -1400, s1_cloudDif = s1_cloudRest - s1_cloudOut; 
+	var s1_cloud2Rest = -430, s1_cloud2Out = -850, s1_cloud2Dif = s1_cloud2Rest - s1_cloud2Out;
+	var s1_moonRest = -200, s1_moonOut = -700, s1_moonDif = s1_moonRest - s1_moonOut;
+	var s1_skylineRest = 200, s1_skylineOut = 250, s1_skylineDif = s1_skylineRest - s1_skylineOut;
+	var s1_cityRest = 250, s1_cityOut = 30, s1_cityDif = s1_cityRest - s1_cityOut;
+
+	var s1_doAnimate = false;
+
+	// SCENE 2
+
+	var $s2 = $('#scene_02');
+	var $s2_cloud = $('#scene_02_cloud');
+	var $s2_cloud2 = $('#scene_02_cloud2');
+	var $s2_cloud3 = $('#scene_02_cloud3');
+	var $s2_book = $('#scene_02_book');
+	var $s2_book2 = $('#scene_02_book2');
+	var $s2_book3 = $('#scene_02_book3');
+	var $s2_book4 = $('#scene_02_book4');
+	var $s2_book4_glow = $('#scene_02_book4_glow');
+	var $s2_light_container = $('#scene_02_light_container');
+	var $s2_light = $('#scene_02_light');
+	var $s2_light_halo = $('#scene_02_light_halo');
+	var $s2_text = $('#scene_02_text');
+	var s2_arrayAnimated = [$s2_cloud,$s2_cloud2,$s2_cloud3,$s2_book,$s2_book2,$s2_book3];
+
+	var s2_cloudRest = -550, s2_cloudOut = -600, s2_cloudDif = s2_cloudRest - s2_cloudOut;
+	var s2_cloud2Rest = -380, s2_cloud2Out = -780, s2_cloud2Dif = s2_cloud2Rest - s2_cloud2Out;
+	var s2_cloud3Rest = -800, s2_cloud3Out = -1000, s2_cloud3Dif = s2_cloud3Rest - s2_cloud3Out;
+	var s2_bookRest = -240, s2_bookOut = -290, s2_bookDif = s2_bookRest - s2_bookOut;
+	var s2_book2Rest = -240, s2_book2Out = -540, s2_book2Dif = s2_book2Rest - s2_book2Out;
+	var s2_book3Rest = -140, s2_book3Out = -1140, s2_book3Dif = s2_book3Rest - s2_book3Out;
+	var s2_lightRest = -200, s2_lightOut = -1000, s2_lightDif = s2_lightRest - s2_lightOut;
+	//var s2_book4GlowRest = .6, s2_book4GlowOut = 0, s2_book4GlowDif = s2_book4GlowRest - s2_book4GlowOut;
+
+	var s2_doAnimate = false;
+
+	// SCENE 3
+
+	var s2_cloudRestX = -100, s2_cloudOutX = -600, s2_cloudDifX = s2_cloudRestX - s2_cloudOutX;
+	var s2_cloud2RestX = 460, s2_cloud2OutX = 200, s2_cloud2DifX = s2_cloud2RestX - s2_cloud2OutX;
+	var s2_cloud3RestX = 760, s2_cloud3OutX = 100, s2_cloud3DifX = s2_cloud3RestX - s2_cloud3OutX;
+	var s2_bookRestX = 200, s2_bookOutX = 100, s2_bookDifX = s2_bookRestX - s2_bookOutX;
+	var s2_book2RestX = 410, s2_book2OutX = 200, s2_book2DifX = s2_book2RestX - s2_book2OutX;
+	var s2_book3RestX = 660, s2_book3OutX = 0, s2_book3DifX = s2_book3RestX - s2_book3OutX;
+
+
+
+
+	function scene_01_in() { 
+		$s1_cloud.animate({ 'background-position-y' : s1_cloudRest + 'px' }, 1000, 'easeOutBack');
+		$s1_cloud2.delay(100).animate({ 'background-position-y' : s1_cloud2Rest + 'px' }, 700, 'easeOutBack');
+		$s1_moon.delay(300).animate({ 'background-position-y' : s1_moonRest + 'px' }, 1000, 'easeOutBack',scene_01_init_anim);
+		$s1_text.delay(1000).animate({'opacity' : 1},1000);
+	}
+
+	function scene_01_init_anim(){
+		s1_doAnimate = true;
+		s1_animateFwd();
+	}
+
+	function s1_animateFwd(){
+		if (s1_doAnimate == true){
+			$s1_cloud.delay(250).animate({ 'background-position-y' : '-930px' },1250);
+			$s1_cloud2.delay(500).animate({ 'background-position-y' : '-460px' },1000);
+			$s1_moon.animate({ 'background-position-y' : '-220px' },1500,s1_animateBack);
+		}
+	}
+
+	function s1_animateBack(){
+		if (s1_doAnimate == true){
+			$s1_cloud.delay(250).animate({ 'background-position-y' : '-900px' },1250);
+			$s1_cloud2.animate({ 'background-position-y' : '-430px' },1500);
+			$s1_moon.delay(500).animate({ 'background-position-y' : '-200px' },1000,s1_animateFwd);
+		}
+	}
+
+	function stopAnimation($stopElement){
+		$stopElement.stop(true,false);
+	}
+
+	$('#scene_01_down').click(function(){
+		var scrollAmt = getScrollLeft(.5);
+		s2_doAnimate = true;
+		$nav_container.animate({'scrollLeft': scrollAmt}, 2000,'easeInOutQuad',s2_in);
+	})
+
+	function s2_in(){
+		$s2_light.animate({'background-position-y' : s2_lightRest + 'px'},700,'easeOutBack');
+		$s2_light_halo.delay(700).animate({'opacity' : .3},500);
+		$s2_book4_glow.delay(700).animate({'opacity' : .6},500);
+	}
+
+	function s2_out(){
+		$s2_light_halo.animate({'opacity' : 0},300);
+		$s2_book4_glow.animate({'opacity' : 0},300);
+		$s2_light.delay(300).animate({'background-position-y' : s2_lightOut + 'px'},700);
+	}
+
+	$nav_container.scroll(function() { //Scrolled to top
+		getScrollPercentage();
+		var relativePercentage;
+		var relativeDecimal;
+		if (scrollPercentage == 0){
+			s1_doAnimate = true;
+			s1_animateFwd();
+			$scene_scroller.css({'top' : '0%', 'left' : '0%'});
+		} else if (scrollPercentage < panePercentage){ //Transition from Scene 1
+
+			if ($nav.hasClass('fixed')){
+				$nav.removeClass('fixed').css({'top' : '727px' });
+			}
+			relativePercentage = getRelativePercentage(1);
+			relativeDecimal = relativePercentage / 100;
+			$scene_scroller.css({'top' : -relativePercentage + '%', 'left' : '0%'});
+
+			if (s1_doAnimate == true){
+				for (var i = 0; i<s1_arrayAnimated.length;i++){
+					stopAnimation(s1_arrayAnimated[i]);
+				}
+				s1_doAnimate = false;
+			}
+
+			var s1_cloudPos = s1_cloudRest - (Math.round(s1_cloudDif * relativeDecimal));
+			var s1_cloud2Pos = s1_cloud2Rest - (Math.round(s1_cloud2Dif * relativeDecimal));
+			var s1_moonPos = s1_moonRest - (Math.round(s1_moonDif * relativeDecimal));
+			var s1_skylinePos = s1_skylineRest - (Math.round(s1_skylineDif * relativeDecimal));
+			var s1_cityPos = s1_cityRest - (Math.round(s1_cityDif * relativeDecimal));
+			
+			$s1_cloud.css({'background-position-y':  s1_cloudPos + 'px' });
+			$s1_cloud2.css({'background-position-y':  s1_cloud2Pos + 'px' });
+			$s1_moon.css({'background-position-y':  s1_moonPos + 'px' });
+			$s1_skyline.css({'background-position-y':  s1_skylinePos + 'px' });
+			$s1_city.css({'background-position-y':  s1_cityPos + 'px' });
+
+			var s2_cloudPos = s2_cloudOut + (Math.round(s2_cloudDif * relativeDecimal));
+			var s2_cloud2Pos = s2_cloud2Out + (Math.round(s2_cloud2Dif * relativeDecimal));
+			var s2_cloud3Pos = s2_cloud3Out + (Math.round(s2_cloud3Dif * relativeDecimal));
+			var s2_bookPos = s2_bookOut + (Math.round(s2_bookDif * relativeDecimal));
+			var s2_book2Pos = s2_book2Out + (Math.round(s2_book2Dif * relativeDecimal));
+			var s2_book3Pos = s2_book3Out + (Math.round(s2_book3Dif * relativeDecimal));
+			//var s2_lightPos = s2_lightOut + (Math.round(s2_lightDif * relativeDecimal));
+			//var s2_book4GlowOpacity = s2_book4GlowOut + (s2_book4GlowDif * relativeDecimal);
+
+			$s2_cloud.css({'background-position-y':  s2_cloudPos + 'px' });
+			$s2_cloud2.css({'background-position-y':  s2_cloud2Pos + 'px' });
+			$s2_cloud3.css({'background-position-y':  s2_cloud3Pos + 'px' });
+			$s2_book.css({'background-position-y':  s2_bookPos + 'px' });
+			$s2_book2.css({'background-position-y':  s2_book2Pos + 'px' });
+			$s2_book3.css({'background-position-y':  s2_book3Pos + 'px' });
+			//$s2_light.css({'background-position-y':  s2_lightPos + 'px' });
+			//$s2_book4_glow.css({'opacity' : s2_book4GlowOpacity});
+
+		} else if (scrollPercentage < panePercentage*2){ //Transition from Scene 2
+			$nav.addClass('fixed').css({'top' : windowTop + 'px'});
+			relativePercentage = getRelativePercentage(2);
+			relativeDecimal = relativePercentage / 100;
+			$scene_scroller.css({'left' : -relativePercentage + '%', 'top' : '-100%' });
+
+			if (s2_doAnimate == true){
+				s2_doAnimate = false;
+				s2_out();
+			}
+
+			var s2_cloudPosX = s2_cloudRestX - (Math.round(s2_cloudDifX * relativeDecimal));
+			var s2_cloud2PosX = s2_cloud2RestX - (Math.round(s2_cloud2DifX * relativeDecimal));
+			var s2_cloud3PosX = s2_cloud3RestX - (Math.round(s2_cloud3DifX * relativeDecimal));
+			var s2_bookPosX = s2_bookRestX - (Math.round(s2_bookDifX * relativeDecimal));
+			var s2_book2PosX = s2_book2RestX - (Math.round(s2_book2DifX * relativeDecimal));
+			var s2_book3PosX = s2_book3RestX - (Math.round(s2_book3DifX * relativeDecimal));
+			//var s2_book4GlowOutOpacity = s2_book4GlowRest - (s2_book4GlowDif * relativeDecimal);
+
+			$s2_cloud.css({'background-position-x':  s2_cloudPosX + 'px' });
+			$s2_cloud2.css({'background-position-x':  s2_cloud2PosX + 'px' });
+			$s2_cloud3.css({'background-position-x':  s2_cloud3PosX + 'px' });
+			$s2_book.css({'background-position-x':  s2_bookPosX + 'px' });
+			$s2_book2.css({'background-position-x':  s2_book2PosX + 'px' });
+			$s2_book3.css({'background-position-x':  s2_book3PosX + 'px' });
+			//$s2_book4_glow.css({'opacity' : s2_book4GlowOutOpacity});
+
+		} else if (scrollPercentage == 1){ //Scrolled to end
+			$scene_scroller.css({'left' : '-100%', 'top' : '-100%' });
+		}
+	});
+
+	init();
+});
+</script>
+
+</body>
+</html>
